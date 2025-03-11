@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Descubre tu libro ideal con nuestro test de personalidad. 
+    Basado en los 16 tipos de personalidad, te recomendaremos libros que conecten contigo.">
+    <title>Book Personality Test | Find Your Perfect Book</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- Contenedor principal de la aplicación -->
+    <div class="app-container">
+        <!-- Introduction Screen -->
+        <div id="intro-screen" class="screen active">
+            <!-- Card container for the introduction content   -->
+            <div class="card">
+                <!-- Sección de la cabecera que contiene el logo y el avatar -->
+                <div class="header">
+                    <!-- Logo de la aplicación con degradado animado -->
+                    <div class="logo">BookPersonality</div>
+                    <!-- User avatar placeholder -->
+                    <div class="avatar"></div>
+                </div>
+                <!-- Contenido principal del area de la pantalla de introducción -->
+                <div class="content">
+                    <h1>Descubre tu libro ideal</h1>
+                    <p class="subtitle">Patrocinado por los corresponsales de la llar jove del ayuntamiento de la Pobla de Vallbona</p>
+                    
+                    <!-- Sección de nformación del test con iconos -->
+                    <div class="test-info">
+                        <!-- Información sobre el número de preguntas -->
+                        <div class="info-item">
+                            <span class="icon"><img src="questions.png"></span>
+                            <span>16 Preguntas</span>
+                        </div>
+                        <!-- Información sobre la duración del test -->
+                        <div class="info-item">
+                            <span class="icon"><img src="minutes.png"></span>
+                            <span>±8 minutos</span>
+                        </div>
+                        <!-- Información sobre el costo del test -->
+                        <div class="info-item">
+                            <span class="icon"><img src="prices.png"></span>
+                            <span>100% Gratis</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Caja de información explicando las intenciones -->
+                    <div class="info-box">
+                        <h3>Sobre este test</h3>
+                        <p>Este test de personalidad está diseñado para ayudarte a encontrar libros que realmente conecten contigo. Basado en la metodología de los 16 tipos de personalidad, te recomendaremos géneros y títulos específicos que se adapten a tu forma de ser.</p>
+                    </div>
+                    
+                    <!-- Caja de información con las instrucciones del test -->
+                    <div class="info-box">
+                        <h3>Instrucciones</h3>
+                        <ul>
+                            <li>No hay respuestas correctas o incorrectas</li>
+                            <li>Responde con sinceridad para obtener recomendaciones precisas</li>
+                            <li>Piensa en cómo eres realmente, no en cómo te gustaría ser</li>
+                        </ul>
+                    </div>
+                    
+                    <button id="start-test-btn" class="primary-btn">Comenzar el test</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pantalla de las preguntas -->
+        <div id="questions-screen" class="screen">
+            <!-- Cabecera con la barra de progreso y el botón hacia atrás -->
+            <div class="header">
+                <button id="back-btn" class="circle-btn">←</button>
+                <!-- Indica el número de la pregunta del total -->
+                <div class="progress-indicator">
+                    <span id="question-counter">1/16</span>
+                </div>
+            </div>
+            
+            <!-- La barra de progreso -->
+            <div class="progress-container">
+                <!-- Visual progress bar that fills as user advances -->
+                <div class="progress-bar">
+                    <div id="progress-fill"></div>
+                </div>
+                <!-- Texto de la barra de progreso -->
+                <div class="progress-text">
+                    <span id="progress-message">Descubriendo tu personalidad lectora...</span>
+                </div>
+            </div>
+            
+            <!-- Contenedor con la pregunta actual y sus posibles respuestas -->
+            <div id="question-container" class="question-container">
+                <!-- Las preguntas se pondrán aquí por el script.js -->
+            </div>
+        </div>
+        
+        <!-- Pantalla de resultados -->
+        <div id="results-screen" class="screen">
+            <!-- Cabecera con el botón de cerrar y el título -->
+            <div class="header">
+                <button id="close-results-btn" class="circle-btn">✕</button>
+                <h2>Tu perfil lector</h2>
+            </div>
+            
+            <!-- Carta que contiene todos los resultados -->
+            <div class="results-card">
+                <!-- Título del tipo de personalidad -->
+                <div class="personality-type">
+                    <h3 id="personality-title">El Explorador Intelectual</h3>
+                    <p class="personality-code">INTP</p>
+                </div>
+                
+                <!-- Sección de descripición de personlidad -->
+                <div class="personality-description">
+                    <p id="personality-description">Te gusta explorar ideas complejas y conceptos abstractos. Buscas libros que desafíen tu intelecto y te hagan reflexionar profundamente.</p>
+                </div>
+                
+                <!-- Contenedor de rasgo para Introvertido y Extrovertido -->
+                <div class="trait-container">
+                    <h4>Introversión vs. Extraversión</h4>
+                    <div class="trait-info">
+                        <p>Prefieres la reflexión interna y los mundos imaginarios</p>
+                        <!-- Gráfico de visualización para este rasgo -->
+                        <div class="trait-chart">
+                            <div class="chart-circle" id="ie-chart">
+                                <span class="percentage" id="ie-percentage">67%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contenedor de rasgo para Intuición y Sensatez -->
+                <div class="trait-container">
+                    <h4>Intuición vs. Sensatez</h4>
+                    <div class="trait-info">
+                        <p>Te atraen las historias con significados ocultos y simbolismos</p>
+                        <!-- Chart visualization for this trait -->
+                        <div class="trait-chart">
+                            <div class="chart-circle high" id="ns-chart">
+                                <span class="percentage" id="ns-percentage">82%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contenedor de rasgo para Lógica y Sensibilidad -->
+                <div class="trait-container">
+                    <h4>Lógica vs. Sensibilidad</h4>
+                    <div class="trait-info">
+                        <p>Valoras la lógica y la coherencia en las tramas</p>
+                        <!-- Chart visualization for this trait -->
+                        <div class="trait-chart">
+                            <div class="chart-circle" id="tf-chart">
+                                <span class="percentage" id="tf-percentage">71%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Trait container for Perceiving vs Judging -->
+                <div class="trait-container">
+                    <h4>Percepción vs. Juicio</h4>
+                    <div class="trait-info">
+                        <p>Disfrutas de finales abiertos y múltiples interpretaciones</p>
+                        <!-- Chart visualization for this trait -->
+                        <div class="trait-chart">
+                            <div class="chart-circle high" id="pj-chart">
+                                <span class="percentage" id="pj-percentage">75%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Book recommendations section based on personality -->
+                <div class="book-recommendations">
+                    <h3>Libros recomendados para ti</h3>
+                    <!-- Container for dynamically generated book recommendations -->
+                    <div class="book-list" id="book-recommendations">
+                        <!-- Book recommendations will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Action buttons for sharing or retaking the test -->
+                <div class="action-buttons">
+                    <button id="share-books-btn" class="primary-btn">Compartir resultados</button>
+                    <button id="retake-test-btn" class="secondary-btn">Volver a hacer el test</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="scripts/personality_test.js"></script>
+    <script src="scripts/book_covers.js"></script>
+    <script src="scripts/casual_reader_test.js"></script>
+</body>
+</html>

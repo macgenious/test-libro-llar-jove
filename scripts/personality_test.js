@@ -475,80 +475,99 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     /**
-     * Sharing Functionality
-     * Creates a shareable image of the user's personality profile and book recommendations
-     * Uses HTML5 Canvas API to generate a downloadable PNG image
-     */
-    function shareBooks() {
-        // Create a canvas element
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Set canvas dimensions
-        canvas.width = 800;
-        canvas.height = 600;
-        
-        // Set background
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Add title
-        ctx.fillStyle = '#333333';
-        ctx.font = 'bold 24px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('Your Book Personality Profile', canvas.width/2, 40);
-        
-        // Add personality type
-        const personalityTitle = document.getElementById('personality-title').textContent;
-        ctx.font = '20px Arial';
-        ctx.fillText(personalityTitle, canvas.width/2, 80);
-        
-        // Add trait percentages
-        const traits = [
-            { name: 'Introversión vs. Extroversión', id: 'ie' },
-            { name: 'Intuición vs. Sensación', id: 'ns' },
-            { name: 'Pensamiento vs. Sentimiento', id: 'tf' },
-            { name: 'Percepción vs. Juicio', id: 'pj' }
-        ];
-        
-        let yOffset = 140;
-        traits.forEach(trait => {
-            const percentage = document.getElementById(`${trait.id}-percentage`).textContent;
-            ctx.font = '16px Arial';
-            ctx.textAlign = 'left';
-            ctx.fillText(`${trait.name}: ${percentage}`, 50, yOffset);
-            yOffset += 40;
+ * Sharing Functionality
+ * Creates a shareable image of the user's personality profile and book recommendations
+ * Uses HTML5 Canvas API to generate a downloadable PNG image
+ */
+function shareBooks() {
+    // Create a canvas element
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Get book elements to calculate proper canvas height
+    const bookElements = document.querySelectorAll('.book-entry');
+    const numBooks = bookElements.length;
+    
+    // Set canvas dimensions (dynamically adjust height based on number of books)
+    canvas.width = 800;
+    canvas.height = 500 + (numBooks * 35); // Base height + space for each book
+    
+    // Set background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Add title
+    ctx.fillStyle = '#333333';
+    ctx.font = 'bold 24px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Tu Perfil de Personalidad Lectora', canvas.width/2, 40);
+    
+    // Add personality type
+    const personalityTitle = document.getElementById('personality-title').textContent;
+    const personalityCode = document.querySelector('.personality-code').textContent;
+    ctx.font = '20px Arial';
+    ctx.fillText(personalityTitle + ' (' + personalityCode + ')', canvas.width/2, 75);
+    
+    // Add trait percentages
+    const traits = [
+        { name: 'Introversión vs. Extroversión', id: 'ie' },
+        { name: 'Intuición vs. Sensatez', id: 'ns' },
+        { name: 'Lógica vs. Sensibilidad', id: 'tf' },
+        { name: 'Percepción vs. Juicio', id: 'pj' }
+    ];
+    
+    let yOffset = 120;
+    traits.forEach(trait => {
+        const percentage = document.getElementById(`${trait.id}-percentage`).textContent;
+        ctx.font = '16px Arial';
+        ctx.textAlign = 'left';
+        ctx.fillText(`${trait.name}: ${percentage}`, 50, yOffset);
+        yOffset += 35;
+    });
+    
+    // Add book recommendations section title
+    ctx.font = 'bold 20px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('Libros Recomendados', canvas.width/2, yOffset + 30);
+    
+    yOffset += 65;
+    
+    // Add book recommendations - using correct selector and extraction
+    if (bookElements.length > 0) {
+        bookElements.forEach((bookEntry, index) => {
+            const titleElement = bookEntry.querySelector('.book-title');
+            const authorElement = bookEntry.querySelector('.book-author');
+            
+            if (titleElement && authorElement) {
+                const title = titleElement.textContent.trim();
+                const author = authorElement.textContent.trim();
+                
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(`${index + 1}. ${title} - ${author}`, 50, yOffset);
+                yOffset += 35;
+            }
         });
-        
-        // Add book recommendations
-        ctx.font = 'bold 20px Arial';
+    } else {
+        // Fallback message if no books found
+        ctx.font = '16px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText('Recommended Books', canvas.width/2, yOffset + 20);
-        
-        const bookElements = document.querySelectorAll('.book-card');
-        yOffset += 60;
-        
-        bookElements.forEach((book, index) => {
-            const title = book.querySelector('.book-title').book.title;
-            const author = book.querySelector('.book-author').book.author;
-            ctx.font = '16px Arial';
-            ctx.textAlign = 'left';
-            ctx.fillText(`${index + 1}. ${title} by ${author}`, 50, yOffset);
-            yOffset += 30;
-        });
-        
-        // Add footer
-        ctx.font = '14px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#666666';
-        ctx.fillText('Test de personalidad de libro Test - La llar jove - La Pobla de Vallbona', canvas.width/2, canvas.height - 30);
-        
-        // Convert canvas to image and trigger download
-        const link = document.createElement('a');
-        link.download = 'my-book-personality.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
+        ctx.fillStyle = '#999999';
+        ctx.fillText('No se encontraron recomendaciones', canvas.width/2, yOffset);
     }
+    
+    // Add footer
+    ctx.font = '14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#666666';
+    ctx.fillText('Test de personalidad de libro - La llar jove - La Pobla de Vallbona', canvas.width/2, canvas.height - 30);
+    
+    // Convert canvas to image and trigger download
+    const link = document.createElement('a');
+    link.download = 'mi-personalidad-lectora.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
     
     /**
      * Question Rendering

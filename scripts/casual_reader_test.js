@@ -515,14 +515,6 @@ function retakeTest() {
     }
 }
 
-/**
- * Comparte los resultados del test
- */
-function shareBooks() {
-    // Implementar la funcionalidad de compartir
-    alert('¡Función de compartir en desarrollo!');
-}
-
 // Exponer funciones necesarias al objeto global para que puedan ser utilizadas por personality_test.js
 document.addEventListener('DOMContentLoaded', function() {
     // Conectar los botones con las funciones del test de lectores casuales

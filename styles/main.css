@@ -36,6 +36,18 @@ body {
   
 /* Logo */
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.logo-text {
     font-size: 24px;
     font-weight: bold;
     background: linear-gradient(45deg, #e66465, #9198e5);
@@ -551,6 +563,34 @@ h4 {
 }
 
 .book-author {
+    font-size: 14px;
+    color: #666;
+}
+
+.book-entry {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.book-entry:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.book-entry .book-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2d2d2d;
+}
+
+.book-entry .book-author {
+    display: block;
     font-size: 14px;
     color: #666;
 }
